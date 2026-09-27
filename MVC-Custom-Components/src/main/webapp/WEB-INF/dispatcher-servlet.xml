@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Beans from  Controller  -->
+    <bean id="bookController" class="com.fatma.mvc.component.controller.BookController"/>
+    <bean id="authorController" class="com.fatma.mvc.component.abstrac.AuthorController"/>
+    <bean id="categoryHandler" class="com.fatma.mvc.component.httphandler.CategoryHandler"/>
+    <bean id="publisherHandler" class="com.fatma.mvc.component.custom.PublisherHandlerImpl"/>
+    <bean id="publisherAdapter" class="com.fatma.mvc.component.custom.PublisherHandlerAdapter"/>
+    <bean id="plainController" class="com.fatma.mvc.component.abstrac.PlainController"/>
+    <bean id="plainView" class="com.fatma.mvc.component.abstrac.CustomView"/>
+
+    <bean name="/about"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName" value="About"/>
+    </bean>
+
+    <bean id="homeRedirect"
+          class="org.springframework.web.servlet.view.RedirectView">
+        <property name="url" value="/MVC-Custom-Components/about"/>
+    </bean>
+
+    <bean name="/home"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName" value="HomeRedirect"/>
+    </bean>
+
+    <!-- Add  handler mapping for controller interface (SimpleUrlHandlerMapping) -->
+    <bean id="simpleHandler" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/books">bookController</prop>
+                <prop key="/authors">authorController</prop>
+                <prop key="/categories">categoryHandler</prop>
+                <prop key="/publishers">publisherHandler</prop>
+                <prop key="/palin">plainController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+
+    <!-- Add Handler Adapter for  -->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+
+    <!-- View Resolver to resolve view requests -->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+</beans>
